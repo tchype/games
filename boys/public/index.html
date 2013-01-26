@@ -1,0 +1,111 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <link rel="stylesheet" href="./stylesheets/main.css" type="text/css" />
+  </head>
+  <body>
+    <button id="move">Move!</button>
+    <div id="border">
+      <div id="container"></div>
+    </div>
+
+    <script src="./javascripts/kinetic-v4.3.0-beta2.js"></script>
+    <script src="./javascripts/scoreboard.js"></script>
+    <script src="./javascripts/player.js"></script>
+    <script>
+      function createStage(containerElementId) {
+        return new Kinetic.Stage({
+          container: containerElementId,
+          width: 1024,
+          height: 768
+        });
+      }
+
+      function createPlayers() {
+        var boys = [];
+        boys.push(new Player('Drew', 'l', './images/drew.png'));
+        boys.push(new Player('Jack', 'a', './images/jack.png'));
+        return boys;
+      }
+
+
+      function createScoreboard(stage, players) {
+        var scoreboard = new Scoreboard(players);
+
+        var board = new Kinetic.Layer();
+
+        var border = new Kinetic.Rect({
+          x: 0,
+          y: 0,
+          width: 10204,
+          height: 60,
+          fill: 'transparent',
+          stroke: 'black',
+          strokeWidth: 4,
+          draggable: true,
+          name: 'scoreboardBorder'
+        });
+
+        board.add(border);
+
+        scoreboard.slots.forEach(function(slot, index, _array) {
+          var playerText = new Kinetic.Text({
+            x: 20 + (index * 100),
+            y: 20,
+            text: slot.player.name,
+            fontSize: 18,
+            fontFamily: 'Calibri',
+            fill: '#555',
+            width: 380,
+            padding: 20,
+            align: 'center'
+          });
+
+          board.add(playerText);
+        });
+
+        stage.add(board);
+      }
+
+
+      var stage = createStage('container');
+      var players = createPlayers();
+      createScoreboard(stage, players);
+      // var boyLayers = main.init();
+
+      
+
+      // var move = document.getElementById('move');
+
+      // function setUpAnimation() {
+      //   var amplitude = 150;
+      //   var period = 2000;
+      //   // in ms
+      //   var centerX = 0; //stage.getWidth() / 2;  //Layer is filling the stage, so no offset needed
+
+      //   var anim = new Kinetic.Animation(function(frame) {
+      //     boyLayers.setX(amplitude * Math.sin(frame.time * 2 * Math.PI / period) + centerX);
+      //   }, boyLayers);
+
+      //   return anim;
+      // }
+
+      // function toggleAnimation(animation, animate) {
+      //   animate ? animation.start() : animation.stop();
+      // }
+
+      // function toggleButtonText(button, animate) {
+      //   button.innerHTML = animate ? "Stop!" : "Move!";
+      // }
+
+      // var animate = false;
+      // var animation = setUpAnimation();
+
+      // move.addEventListener('click', function() {
+      //   animate = !animate;
+      //   toggleAnimation(animation, animate);
+      //   toggleButtonText(move, animate);
+      // });
+    </script>
+  </body>
+</html>

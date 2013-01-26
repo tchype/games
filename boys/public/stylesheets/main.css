@@ -1,0 +1,9 @@
+body {
+	margin: 0px;
+	padding: 0px;
+}
+
+#border {
+  border-color: #000;
+  border-width: 5;
+}

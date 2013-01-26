@@ -1,0 +1,53 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <link rel="stylesheet" href="./stylesheets/main.css" type="text/css" />
+  </head>
+  <body>
+    <button id="move">Move!</button>
+    <div id="container"></div>
+    <script src="./javascripts/kinetic-v4.3.0-beta2.js"></script>
+    <script src="./javascripts/main.js"></script>
+    <script>
+      var stage = new Kinetic.Stage({
+        container: 'container',
+        width: 578,
+        height: 200
+      });
+
+      var layer = main.init();
+
+      var move = document.getElementById('move');
+
+      function setUpAnimation() {
+        var amplitude = 150;
+        var period = 2000;
+        // in ms
+        var centerX = 0; //stage.getWidth() / 2;  //Layer is filling the stage, so no offset needed
+
+        var anim = new Kinetic.Animation(function(frame) {
+          layer.setX(amplitude * Math.sin(frame.time * 2 * Math.PI / period) + centerX);
+        }, layer);
+
+        return anim;
+      }
+
+      function toggleAnimation(animation, animate) {
+        animate ? animation.start() : animation.stop();
+      }
+
+      function toggleButtonText(button, animate) {
+        button.innerHTML = animate ? "Stop!" : "Move!";
+      }
+
+      var animate = false;
+      var animation = setUpAnimation();
+
+      move.addEventListener('click', function() {
+        animate = !animate;
+        toggleAnimation(animation, animate);
+        toggleButtonText(move, animate);
+      });
+    </script>
+  </body>
+</html>
