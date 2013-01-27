@@ -1,8 +1,38 @@
+if (typeof Kinetic === 'undefined') {
+  throw new Error('Kinetic script must be loaded first!');
+}
+
 game = {
   STATES: { stopped: 'Stopped', running: 'Running' },
   players: [],
   playerScores: [],  //TODO : Need a home for visual details
   state: {},
+}
+
+game.Player = function(name, key, avatar) {
+	this.name = name;
+	this.key = key;
+	this.avatar = avatar;
+  this.score = 0;
+}
+game.Player.prototype.getScore = function() { return this.score; }
+game.Player.prototype.setScore = function(score) { this.score = score; } // Add events
+
+game.Scoreboard = function(players) {
+	this.players = players;
+	this.slots = [];
+
+	var scoreboard = this; // For the forEach
+	this.players.forEach(function(player, _index, _array) {
+		scoreboard.slots.push(new game.ScoreboardSlot(player));
+	});
+}
+
+game.ScoreboardSlot = function(player) {
+	this.getPlayer = function() { return player; };
+	this.getScore = function() { return player.getScore(); };
+  this.getName = function() { return player.name; };
+  this.getAvatarUrl = function() { return player.avatar; };
 }
 
 game.isStopped = function() { return this.state === this.STATES.stopped };
@@ -13,7 +43,7 @@ game.start = function() {
 
   this.loopInterval = setInterval(function() {
     theGame.players.forEach(function(player, _index, _array) {
-      player.score = Math.round(Math.random() * 1000);
+      player.setScore(Math.round(Math.random() * 1000));
     });
 
     theGame.updateScores();
@@ -29,7 +59,7 @@ game.updateScores = function() {
   var theGame = this;
   theGame.players.forEach(function(player, index, _array) {
     score = theGame.playerScores[index];
-    score.setScore(player.score);
+    score.setScore(player.getScore());
   });
 
   this.stage.draw();
@@ -51,7 +81,7 @@ game.init = function(containerElementId, playerNames) {
 
     playerNames.forEach(function(name, _index, _array) {
       var key = keys.shift();
-      players.push(new Player(name, key, './images/' + name + '.png'))
+      players.push(new game.Player(name, key, './images/' + name + '.png'))
     });
 
     return players;
@@ -59,7 +89,7 @@ game.init = function(containerElementId, playerNames) {
 
 
   function createScoreboard(stage, players) {
-    var scoreboard = new Scoreboard(players);
+    var scoreboard = new game.Scoreboard(players);
 
     var board = new Kinetic.Layer();
 
