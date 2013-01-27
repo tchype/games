@@ -65,16 +65,23 @@ game.init = function(containerElementId, playerNames) {
 
     var borderWidth = 4;
     var borderAdjustment = borderWidth - 1;
+    var shadowOffsetX = 10;
+    var shadowOffsetY = 10;
 
     var border = new Kinetic.Rect({
       x: 0,
       y: borderAdjustment,
-      width: stage.getWidth() - borderAdjustment,
+      width: stage.getWidth() - borderAdjustment - shadowOffsetX,
       height: 60,
-      fill: 'transparent',
-      stroke: 'black',
+      fill: '#de5',
+      stroke: '#555',
       strokeWidth: borderWidth,
       draggable: true,
+      cornerRadius: 10,
+      shadowColor: '#000',
+      shadowBlur: 10,
+      shadowOffset: [shadowOffsetX, shadowOffsetY],
+      shadowOpacity: 0.5,
       name: 'scoreboardBorder'
     });
 
@@ -83,8 +90,11 @@ game.init = function(containerElementId, playerNames) {
 
     var imageWidth = 50;
     var imageHeight = 50;
-    var nameWidth = 80;
+    var nameWidth = 100;
     var scoreWidth = 50;
+
+    var betweenPlayerPadding = 100;
+    var playerWidth = imageWidth + nameWidth + scoreWidth + betweenPlayerPadding;
 
     var addPlayerImageToScoreboard = function(board, avatarUrl, startX, startY) {
       var playerImage = new Image();
@@ -107,13 +117,12 @@ game.init = function(containerElementId, playerNames) {
     var addPlayerNameToScoreboard  = function(board, name, startX, startY) {
       var playerText = new Kinetic.Text({
         x: startX,
-        y: startY,
+        y: startY + 20,
         text: name,
         fontSize: 18,
         fontFamily: 'Calibri',
         fill: '#555',
         width: 80,
-        padding: 20,
         align: 'center'
       });
 
@@ -147,18 +156,18 @@ game.init = function(containerElementId, playerNames) {
     }
 
 
-    var addPlayerToScoreboard = function(board, name, avatarUrl, playerIndex) {
-      var startX = 10 + (playerIndex * 300);
-      var startY = 10;
-
+    var addPlayerToScoreboard = function(board, name, avatarUrl, startX, startY) {
       addPlayerImageToScoreboard(board, avatarUrl, startX, startY);
       addPlayerNameToScoreboard(board, name, startX + imageWidth, startY);
       var playerScore = addPlayerScoreTextToScoreboard(board, startX + imageWidth + nameWidth, startY);
       game.playerScores.push(playerScore);
     }
 
-    scoreboard.slots.forEach(function(slot, index, _array) {
-      addPlayerToScoreboard(board, slot.getName(), slot.getAvatarUrl(), index);
+    scoreboard.slots.forEach(function(slot, index, array) {
+      var startingOffsetX = (stage.getWidth() - (playerWidth * array.length)) / 2
+      var startX = startingOffsetX + (index * playerWidth);
+      var startY = 10;
+      addPlayerToScoreboard(board, slot.getName(), slot.getAvatarUrl(), startX, startY);
     });
 
     stage.add(board);
