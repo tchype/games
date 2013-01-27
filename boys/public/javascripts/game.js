@@ -41,13 +41,13 @@ game.start = function() {
   var theGame = this;
   this.state = this.STATES.running;
 
-  this.loopInterval = setInterval(function() {
-    theGame.players.forEach(function(player, _index, _array) {
-      player.setScore(Math.round(Math.random() * 1000));
-    });
+  //this.loopInterval = setInterval(function() {
+  //  theGame.players.forEach(function(player, _index, _array) {
+  //    player.setScore(Math.round(Math.random() * 1000));
+  //  });
 
-    theGame.updateScores();
-  }, 1000);
+  //  theGame.updateScores();
+  //}, 1000);
 };
 
 game.stop = function() {
@@ -77,7 +77,7 @@ game.init = function(containerElementId, playerNames) {
 
   function createPlayers(playerNames) {
     var players = [];
-    var keys = ['a', 'l', ' '];
+    var keys = ['A', 'L', ' '];
 
     playerNames.forEach(function(name, _index, _array) {
       var key = keys.shift();
@@ -213,7 +213,7 @@ game.init = function(containerElementId, playerNames) {
   this.players = createPlayers(playerNames);
   this.scoreboard = createScoreboard(this.stage, this.players);
 
-  this.start();
+  //this.start();
 
   return this.stage;
 }
