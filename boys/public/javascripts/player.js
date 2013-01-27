@@ -2,7 +2,9 @@ var Player = function(name, key, avatar) {
 	this.name = name;
 	this.key = key;
 	this.avatar = avatar;
+  this.score = 0;
 }
+Player.prototype.getScore = function() { return this.score; }
 
 var PlayerPosition = function(player) {
 	this.player = player;

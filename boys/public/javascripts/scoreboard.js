@@ -9,19 +9,9 @@ Scoreboard = function(players) {
 }
 
 ScoreboardSlot = function(player) {
-	this.player = player;
-	this.score = 0;
-	// this.avatarIcon = new Image();
-	// this.avatarIcon.addEventListener('load', function() {
-	// 	var filteredIcon = new Kinetic.Image({
-	//     x: 0,
-	//     y: 0,
-	//     image: this.avatarIcon,
-	//     width: 50,
-	//     height: 50
-	//   });
-	// });
-
-	// this.avatarIcon.src = player.avatar;
+	this.getPlayer = function() { return player; };
+	this.getScore = function() { return player.getScore(); };
+  this.getName = function() { return player.name; };
+  this.getAvatarUrl = function() { return player.avatar; };
 }
 

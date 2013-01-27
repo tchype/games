@@ -4,7 +4,6 @@
     <link rel="stylesheet" href="./stylesheets/main.css" type="text/css" />
   </head>
   <body>
-    <button id="move">Move!</button>
     <div id="border">
       <div id="container"></div>
     </div>
@@ -12,70 +11,10 @@
     <script src="./javascripts/kinetic-v4.3.0-beta2.js"></script>
     <script src="./javascripts/scoreboard.js"></script>
     <script src="./javascripts/player.js"></script>
+    <script src="./javascripts/game.js"></script>
     <script>
-      function createStage(containerElementId) {
-        return new Kinetic.Stage({
-          container: containerElementId,
-          width: 1024,
-          height: 768
-        });
-      }
+      var stage = game.init('container', ['Drew', 'Jack']);
 
-      function createPlayers() {
-        var boys = [];
-        boys.push(new Player('Drew', 'l', './images/drew.png'));
-        boys.push(new Player('Jack', 'a', './images/jack.png'));
-        return boys;
-      }
-
-
-      function createScoreboard(stage, players) {
-        var scoreboard = new Scoreboard(players);
-
-        var board = new Kinetic.Layer();
-
-        var border = new Kinetic.Rect({
-          x: 0,
-          y: 0,
-          width: 10204,
-          height: 60,
-          fill: 'transparent',
-          stroke: 'black',
-          strokeWidth: 4,
-          draggable: true,
-          name: 'scoreboardBorder'
-        });
-
-        board.add(border);
-
-        scoreboard.slots.forEach(function(slot, index, _array) {
-          var playerText = new Kinetic.Text({
-            x: 20 + (index * 100),
-            y: 20,
-            text: slot.player.name,
-            fontSize: 18,
-            fontFamily: 'Calibri',
-            fill: '#555',
-            width: 380,
-            padding: 20,
-            align: 'center'
-          });
-
-          board.add(playerText);
-        });
-
-        stage.add(board);
-      }
-
-
-      var stage = createStage('container');
-      var players = createPlayers();
-      createScoreboard(stage, players);
-      // var boyLayers = main.init();
-
-      
-
-      // var move = document.getElementById('move');
 
       // function setUpAnimation() {
       //   var amplitude = 150;
