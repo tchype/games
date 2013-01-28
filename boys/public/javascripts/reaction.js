@@ -77,6 +77,43 @@ reaction.init = function() {
   });
   game.stage.add(layer);
   this.layer = layer;
+
+
+  // Add sound effects
+
+  var startBackgroundMusic = function() {
+    var backgroundMusic = document.createElement('audio');
+    backgroundMusic.loop = true;
+    backgroundMusic.volume = 0.3;
+    backgroundMusic.autoplay = true;
+    backgroundMusic.src = './sounds/Gorilla-Pimp_3for3-160.mp3';
+    backgroundMusic.preload = 'auto';
+
+    return backgroundMusic;
+  }
+
+
+  var setupCorrectSoundEffect = function() {
+    var rightSoundEffect = document.createElement('audio');
+    rightSoundEffect.src = './sounds/beep-24-correct.mp3';
+    rightSoundEffect.preload = 'auto';
+    rightSoundEffect.volume = 1;
+
+    return rightSoundEffect;
+  }
+
+  var setupWinnerMusic = function() {
+    var winnerMusic = document.createElement('audio');
+    winnerMusic.src = './sounds/creepydoll.m4a';
+    winnerMusic.preload = 'auto';
+    winnerMusic.volume = 1;
+
+    return winnerMusic;
+  }
+
+  this.correctSoundEffect = setupCorrectSoundEffect();
+  this.backgroundMusic = startBackgroundMusic();
+  this.winnerMusic = setupWinnerMusic();
 }
 
 reaction.start = function() {
@@ -142,6 +179,7 @@ reaction.start = function() {
 
 reaction.showFirst = function(player, callback) {
   console.log(player);
+  this.correctSoundEffect.play();
   var image = player.getColorImage();
   image.show();
   setTimeout(function() { 
@@ -153,6 +191,9 @@ reaction.showFirst = function(player, callback) {
 }
 
 reaction.showWinner = function(player) {
+  this.backgroundMusic.pause();
+  this.winnerMusic.currentTime = 46; // Start at chorus of creepy doll
+  this.winnerMusic.play();
   this.winnerText.show();
 
   var winnerImage = player.getColorImage();
